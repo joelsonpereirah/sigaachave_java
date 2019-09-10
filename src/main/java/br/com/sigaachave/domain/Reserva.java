@@ -24,6 +24,7 @@ public class Reserva {
 	
 	private String sala;
 	private String data;
+	private boolean isFixo;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusReserva status;
@@ -62,5 +63,11 @@ public class Reserva {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public boolean getIsFixo() {
+		return isFixo;
+	}
+	public void setFixo(boolean isFixo) {
+		this.isFixo = isFixo;
 	}
 }

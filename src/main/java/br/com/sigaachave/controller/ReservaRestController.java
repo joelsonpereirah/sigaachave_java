@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import br.com.sigaachave.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/sigaachave")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ReservaRestController {
 	
 	@Autowired
@@ -55,7 +57,7 @@ public class ReservaRestController {
 		return new ResponseEntity<Reserva>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/reservas/adicionar/{sala}+{data}", method = RequestMethod.POST)
+	@RequestMapping(value = "/reservas/adicionar/{sala}+{data}+{isFixo}", method = RequestMethod.POST)
 	public ResponseEntity<Reserva> add(Reserva reserva){
 		
 		reserva.setStatus(StatusReserva.PENDENTE);
@@ -63,7 +65,7 @@ public class ReservaRestController {
 		return new ResponseEntity<>(HttpStatus.OK); 
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT)
 	public ResponseEntity<Reserva> update(@PathVariable("id") Long id, Reserva reserva){
 		
 		if(reservaRepository.existsById(id) == false) {
@@ -90,4 +92,17 @@ public class ReservaRestController {
 		reservaRepository.save(reserva.get());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/reservas/status/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id){
+		
+		if(reservaRepository.existsById(id) == false) {
+			return new ResponseEntity<Reserva>(HttpStatus.NOT_FOUND);
+		}else {
+			Optional<Reserva> reserva = reservaRepository.findById(id);
+			reserva.get().setStatus(StatusReserva.CONFIRMADA);
+			reservaRepository.save(reserva.get());
+		}
+		return new ResponseEntity<Reserva>(HttpStatus.OK);
+	}	
 }
