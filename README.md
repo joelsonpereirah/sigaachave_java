@@ -36,6 +36,9 @@ POST - Adiciona reserva
 PUT - Atualiza reserva {id}  
 `ip:port/sigaachave/reservas/{id}/atualizar/{sala}+{data}+{status}`
 
+PUT - Confirmar reserva pendente {id}  
+`ip:port/sigaachave/reservas/status/{id}`
+
 PUT - Atribui reserva {id} a usuario {usuarioId}  
 `ip:port/sigaachave/reservas/{id}/usuario/{usuarioId}`
 
