@@ -11,4 +11,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 	
 	@Query(value = "SELECT * FROM RESERVA WHERE usuario_id = ?1",nativeQuery = true)
 	List<Reserva> byUserId(Long id);
+	
+	@Query(value = "SELECT * FROM RESERVA WHERE status = ?1",nativeQuery = true)
+	List<Reserva> findByStatus(String status);
 }

@@ -34,6 +34,11 @@ public class ReservaRestController {
 		return new ResponseEntity<List<Reserva>>(reservaRepository.findAll(), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/reservas/{status}", method = RequestMethod.GET)
+	public ResponseEntity<List<Reserva>> getByType(@PathVariable("status") String status) {
+		return new ResponseEntity<List<Reserva>>(reservaRepository.findByStatus(status), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/reservas/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Reserva> get(@PathVariable("id") Long id) {
 		
@@ -93,14 +98,14 @@ public class ReservaRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/reservas/status/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id){
+	@RequestMapping(value = "/reservas/status/{id}+{status}", method = RequestMethod.PUT)
+	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
 		
 		if(reservaRepository.existsById(id) == false) {
 			return new ResponseEntity<Reserva>(HttpStatus.NOT_FOUND);
 		}else {
 			Optional<Reserva> reserva = reservaRepository.findById(id);
-			reserva.get().setStatus(StatusReserva.CONFIRMADA);
+			reserva.get().setStatus(status);
 			reservaRepository.save(reserva.get());
 		}
 		return new ResponseEntity<Reserva>(HttpStatus.OK);
