@@ -1,7 +1,6 @@
 package br.com.sigaachave.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigaachave.domain.Reserva;
-import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.enums.StatusReserva;
 import br.com.sigaachave.repository.ReservaRepository;
-import br.com.sigaachave.repository.UsuarioRepository;
+import br.com.sigaachave.service.ReservaService;
 
 @RestController
 @RequestMapping("/sigaachave")
@@ -24,10 +22,10 @@ import br.com.sigaachave.repository.UsuarioRepository;
 public class ReservaRestController {
 	
 	@Autowired
-	private ReservaRepository reservaRepository;
+	private ReservaService reservaService;
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private ReservaRepository reservaRepository;
 	
 	@RequestMapping(value = "/reservas", method = RequestMethod.GET)
 	public ResponseEntity<List<Reserva>> all() {
@@ -37,72 +35,61 @@ public class ReservaRestController {
 	@RequestMapping(value = "/reservas/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Reserva> get(@PathVariable("id") Long id) {
 		
-		if(reservaRepository.existsById(id) == false) {
-			
+		try {
+			return new ResponseEntity<Reserva>(reservaService.getReserva(id), HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		return new ResponseEntity<Reserva>(reservaRepository.getOne(id), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reservas/{id}/excluir", method = RequestMethod.DELETE)
 	public ResponseEntity<Reserva> remove(@PathVariable("id") Long id) {
 		
-		if(reservaRepository.existsById(id) == false) {
-			
+		try {
+			reservaService.deleteReserva(id);
+			return new ResponseEntity<Reserva>(HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		reservaRepository.deleteById(id);
-		return new ResponseEntity<Reserva>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reservas/adicionar/{sala}+{data}+{isFixo}", method = RequestMethod.POST)
 	public ResponseEntity<Reserva> add(Reserva reserva){
 		
-		reserva.setStatus(StatusReserva.PENDENTE);
-		reservaRepository.save(reserva);
+		reservaService.saveReserva(reserva);
 		return new ResponseEntity<>(HttpStatus.OK); 
 	}
 	
 	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT)
 	public ResponseEntity<Reserva> update(@PathVariable("id") Long id, Reserva reserva){
 		
-		if(reservaRepository.existsById(id) == false) {
-			
+		try {
+			reservaService.updateReserva(id, reserva);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		reservaRepository.save(reserva);
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reservas/{id}/usuario/{usuarioId}", method = RequestMethod.PUT)
 	public ResponseEntity<Reserva> asign(@PathVariable("id") Long id, @PathVariable("usuarioId") Long usuarioId){
 		
-		if(reservaRepository.existsById(id) == false || usuarioRepository.existsById(usuarioId) == false) {
-			
+		try {
+			reservaService.asignToUsuario(id, usuarioId);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
-		Optional<Reserva> reserva = reservaRepository.findById(id);
-		Optional<Usuario> usuario = usuarioRepository.findById(usuarioId);
-		reserva.get().setUsuario(usuario.get());
-		
-		reservaRepository.save(reserva.get());
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/reservas/status/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id){
+	@RequestMapping(value = "/reservas/status/{id}+{status}", method = RequestMethod.PUT)
+	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
 		
-		if(reservaRepository.existsById(id) == false) {
+		try {
+			reservaService.changeStatus(id, status);
+			return new ResponseEntity<Reserva>(HttpStatus.OK);
+		} catch (Exception e) {
 			return new ResponseEntity<Reserva>(HttpStatus.NOT_FOUND);
-		}else {
-			Optional<Reserva> reserva = reservaRepository.findById(id);
-			reserva.get().setStatus(StatusReserva.CONFIRMADA);
-			reservaRepository.save(reserva.get());
 		}
-		return new ResponseEntity<Reserva>(HttpStatus.OK);
 	}	
 }
