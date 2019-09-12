@@ -89,7 +89,7 @@ public class ReservaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/status/{id}+{status}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/reservas/{id}/status/{status}", method = RequestMethod.PUT)
 	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
 		
 		try {
