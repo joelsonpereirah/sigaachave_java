@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.enums.StatusReserva;
+import br.com.sigaachave.exception.ReservaException;
+import br.com.sigaachave.exception.StatusException;
+import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.service.ReservaService;
 
@@ -37,7 +40,7 @@ public class ReservaRestController {
 		
 		try {
 			return new ResponseEntity<Reserva>(reservaService.getReserva(id), HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (ReservaException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -48,7 +51,7 @@ public class ReservaRestController {
 		try {
 			reservaService.deleteReserva(id);
 			return new ResponseEntity<Reserva>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (ReservaException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -66,7 +69,9 @@ public class ReservaRestController {
 		try {
 			reservaService.updateReserva(id, reserva);
 			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (ReservaException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (StatusException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -77,7 +82,9 @@ public class ReservaRestController {
 		try {
 			reservaService.asignToUsuario(id, usuarioId);
 			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (ReservaException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (UsuarioException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -88,8 +95,10 @@ public class ReservaRestController {
 		try {
 			reservaService.changeStatus(id, status);
 			return new ResponseEntity<Reserva>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (ReservaException e) {
 			return new ResponseEntity<Reserva>(HttpStatus.NOT_FOUND);
+		} catch (StatusException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}	
 }

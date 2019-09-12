@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.domain.Usuario;
+import br.com.sigaachave.exception.PapelException;
+import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.repository.UsuarioRepository;
 import br.com.sigaachave.service.UsuarioService;
@@ -52,7 +54,7 @@ public class UsuarioRestController {
 		try {
 			usuarioService.deleteUsuario(id);
 			return new ResponseEntity<Usuario>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (UsuarioException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -63,7 +65,7 @@ public class UsuarioRestController {
 		try {
 			usuarioService.saveUsuario(usuario);
 			return new ResponseEntity<>(HttpStatus.OK); 
-		} catch (Exception e) {
+		} catch (PapelException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} 
 	}
@@ -74,7 +76,7 @@ public class UsuarioRestController {
 		try {
 			usuarioService.updateUsuario(id, usuario);
 			return new ResponseEntity<Usuario>(HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (UsuarioException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
