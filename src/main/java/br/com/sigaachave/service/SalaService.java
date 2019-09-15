@@ -1,21 +1,16 @@
 package br.com.sigaachave.service;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.domain.Sala;
-import br.com.sigaachave.domain.Usuario;
-import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.repository.SalaRepository;
 
 @Service
 public class SalaService {
 	
+	@Autowired
 	private SalaRepository salaRepository;
-	
-	private ReservaRepository reservaRepository;
 	
 	public void checkSalaById(Long id) throws Exception{
 		
@@ -54,6 +49,5 @@ public class SalaService {
 		
 		checkSalaById(id);
 		salaRepository.save(sala);
-	}
-	
+	}	
 }

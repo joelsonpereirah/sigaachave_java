@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.domain.Sala;
-import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.repository.SalaRepository;
-import br.com.sigaachave.repository.UsuarioRepository;
 import br.com.sigaachave.service.SalaService;
 
 @RestController
@@ -25,8 +22,7 @@ public class SalaRestController {
 	
 	@Autowired
 	private SalaRepository salaRepository;
-	@Autowired
-	private UsuarioRepository usuarioRepository;
+	
 	@Autowired
 	private SalaService salaService;
 	
@@ -35,7 +31,7 @@ public class SalaRestController {
 		return new ResponseEntity<List<Sala>>(salaRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/sala/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/salas/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Sala> get(@PathVariable("id") Long id) {
 		
 		try {
@@ -45,7 +41,7 @@ public class SalaRestController {
 		}	
 	}
 	
-	@RequestMapping(value = "/sala/{id}/excluir", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/salas/{id}/excluir", method = RequestMethod.DELETE)
 	public ResponseEntity<Sala> remove(@PathVariable("id") Long id) {
 		
 		try {
