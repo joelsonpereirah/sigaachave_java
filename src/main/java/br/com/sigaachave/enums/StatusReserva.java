@@ -3,7 +3,8 @@ package br.com.sigaachave.enums;
 public enum StatusReserva {
 	
 	PENDENTE("Pendente"),
-	CONFIRMADA("Confirmada");
+	CONFIRMADA("Confirmada"),
+	CANCELADA("Cancelada");
 	
 	private String descricao;
 	
