@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.JsonObject;
 
 import br.com.sigaachave.enums.StatusReserva;
 
@@ -69,5 +70,19 @@ public class Reserva {
 	}
 	public void setFixo(boolean isFixo) {
 		this.isFixo = isFixo;
+	}
+	
+	@Override
+	public String toString() {
+		
+		JsonObject object = new JsonObject();
+		
+		object.addProperty("id", getId());
+		object.addProperty("sala", getSala());
+		object.addProperty("data", getData());
+		object.addProperty("isFixo", getIsFixo());
+		object.addProperty("status", getStatus().toString());
+		
+		return object.toString();
 	}
 }

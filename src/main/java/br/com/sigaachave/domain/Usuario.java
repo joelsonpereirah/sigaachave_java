@@ -12,8 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.JsonObject;
 
 import br.com.sigaachave.enums.TipoPapel;
 
@@ -28,7 +30,8 @@ public class Usuario {
 	private String nome;
 	private String senha;
 	
-	@JsonProperty("reservas")
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "usuario", targetEntity = Reserva.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
 	
@@ -65,5 +68,18 @@ public class Usuario {
 
 	public void setPapel(TipoPapel papel) {
 		this.papel = papel;
+	}
+	
+	@Override
+	public String toString() {
+		
+		JsonObject object = new JsonObject();
+		
+		object.addProperty("id", getId());
+		object.addProperty("nome", getNome());
+		object.addProperty("senha", getSenha());
+		object.addProperty("papel", getPapel().toString());
+		
+		return object.toString();
 	}
 }

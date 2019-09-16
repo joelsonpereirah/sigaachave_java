@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.sigaachave.domain.JsonResponse;
 import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.exception.PapelException;
@@ -38,46 +39,46 @@ public class UsuarioRestController {
 		return new ResponseEntity<List<Usuario>>(usuarioRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/usuarios/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Usuario> get(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/usuarios/{id}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> get(@PathVariable("id") Long id) {
 		
 		try {
-			return new ResponseEntity<Usuario>(usuarioService.getUsuario(id), HttpStatus.OK);
+			return new ResponseEntity<String>(usuarioService.getUsuario(id).toString(), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}	
 	}
 	
-	@RequestMapping(value = "/usuarios/{id}/excluir", method = RequestMethod.DELETE)
-	public ResponseEntity<Usuario> remove(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/usuarios/{id}/excluir", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<String> remove(@PathVariable("id") Long id) {
 		
 		try {
 			usuarioService.deleteUsuario(id);
-			return new ResponseEntity<Usuario>(HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
 		} catch (UsuarioException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@RequestMapping(value = "/usuarios/adicionar/{nome}+{senha}+{papel}", method = RequestMethod.POST)
-	public ResponseEntity<Usuario> add(Usuario usuario){
+	@RequestMapping(value = "/usuarios/adicionar/{nome}+{senha}+{papel}", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<String> add(Usuario usuario){
 		
 		try {
 			usuarioService.saveUsuario(usuario);
-			return new ResponseEntity<>(HttpStatus.OK); 
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK); 
 		} catch (PapelException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} 
 	}
 	
-	@RequestMapping(value = "/usuarios/{id}/atualizar/{nome}+{senha}+{papel}", method = RequestMethod.PUT)
-	public ResponseEntity<Usuario> update(@PathVariable("id") Long id, Usuario usuario){
+	@RequestMapping(value = "/usuarios/{id}/atualizar/{nome}+{senha}+{papel}", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> update(@PathVariable("id") Long id, Usuario usuario){
 		
 		try {
 			usuarioService.updateUsuario(id, usuario);
-			return new ResponseEntity<Usuario>(HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
 		} catch (UsuarioException e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	

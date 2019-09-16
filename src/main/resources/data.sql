@@ -10,5 +10,5 @@ insert into RESERVA values(4, '05-03-2019', false, '203','PENDENTE', 3);
 insert into RESERVA values(5, '06-07-2019', true, '206','PENDENTE', 2);
 
 insert into SALA values(1, 'Sala de atendimento infantil', 'Setor de psicologia', 'A101', false);
-insert into SALA values(2, 'Sala de atendimento infantil', 'Setor de psicologia', 'A101', false);
-insert into SALA values(3, 'Sala de atendimento infantil', 'Setor de psicologia', 'A101', false);
+insert into SALA values(2, 'Sala de atendimento infantil', 'Setor de psicologia', 'A102', false);
+insert into SALA values(3, 'Sala de atendimento infantil', 'Setor de psicologia', 'A103', false);
