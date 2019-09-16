@@ -51,7 +51,7 @@ public class ReservaRestController {
 		
 		try {
 			reservaService.deleteReserva(id);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva removida com sucesso!").toString(), HttpStatus.OK);
 		} catch (ReservaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
@@ -61,7 +61,7 @@ public class ReservaRestController {
 	public ResponseEntity<String> add(Reserva reserva){
 		
 		reservaService.saveReserva(reserva);
-		return new ResponseEntity<>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK); 
+		return new ResponseEntity<>(new JsonResponse(HttpStatus.OK.toString(), "Reserva adicionada com sucesso!").toString(), HttpStatus.OK); 
 	}
 	
 	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT, produces = "application/json")
@@ -69,7 +69,7 @@ public class ReservaRestController {
 		
 		try {
 			reservaService.updateReserva(id, reserva);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atualizada com sucesso!").toString(), HttpStatus.OK);
 		} catch (ReservaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} catch (StatusException e) {
@@ -82,7 +82,7 @@ public class ReservaRestController {
 		
 		try {
 			reservaService.asignToUsuario(id, usuarioId);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atribuida ao usuário com sucesso!").toString(), HttpStatus.OK);
 		} catch (ReservaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} catch (UsuarioException e) {
@@ -95,7 +95,7 @@ public class ReservaRestController {
 		
 		try {
 			reservaService.changeStatus(id, status);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Status da reserva atualizado com sucesso!").toString(), HttpStatus.OK);
 		} catch (ReservaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} catch (StatusException e) {

@@ -54,7 +54,7 @@ public class UsuarioRestController {
 		
 		try {
 			usuarioService.deleteUsuario(id);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Usuário excluído com sucesso!").toString(), HttpStatus.OK);
 		} catch (UsuarioException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
@@ -65,7 +65,7 @@ public class UsuarioRestController {
 		
 		try {
 			usuarioService.saveUsuario(usuario);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK); 
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Usuário adicionado com sucesso!").toString(), HttpStatus.OK); 
 		} catch (PapelException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} 
@@ -76,7 +76,7 @@ public class UsuarioRestController {
 		
 		try {
 			usuarioService.updateUsuario(id, usuario);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Usuário atualizado com sucesso!").toString(), HttpStatus.OK);
 		} catch (UsuarioException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}

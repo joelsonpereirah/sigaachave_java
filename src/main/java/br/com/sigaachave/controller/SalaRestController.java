@@ -51,7 +51,7 @@ public class SalaRestController {
 		
 		try {
 			salaService.deleteSala(id);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Sala removida com sucesso!").toString(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
@@ -62,7 +62,7 @@ public class SalaRestController {
 		
 		try {
 			salaService.saveSala(sala);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK); 
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Sala adicionada com sucesso!").toString(), HttpStatus.OK); 
 		} catch (SalaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} 
@@ -73,7 +73,7 @@ public class SalaRestController {
 		
 		try {
 			salaService.updateSala(id, sala);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "").toString(), HttpStatus.OK); 
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Sala atualizada com sucesso!").toString(), HttpStatus.OK); 
 		} catch (SalaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
