@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.enums.TipoPapel;
+import br.com.sigaachave.exception.PapelException;
+import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.repository.UsuarioRepository;
 
 @Service
@@ -16,45 +18,45 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	public void checkUsuariobyId(Long id) throws Exception{
+	public void checkUsuariobyId(Long id) throws UsuarioException{
 		
 		if(!usuarioRepository.existsById(id)) {
-			throw new Exception("Usuário não encontrado!");
+			throw new UsuarioException("Usuário não encontrado!");
 		}
 	}
 	
-	private void checkPapel(TipoPapel papel) throws Exception{
+	private void checkPapel(TipoPapel papel) throws PapelException{
 		
 		List<TipoPapel> papeis = Arrays.asList(TipoPapel.values());
 		
 		if(papel.toString().equals("")) {
-			throw new Exception("Papel vazio!");
+			throw new PapelException("Papel vazio!");
 		}
 		
 		if(!papeis.contains(papel)) {
-			throw new Exception("Papel inválido!");
+			throw new PapelException("Papel inválido!");
 		}
 	}
 	
-	public Usuario getUsuario(Long id) throws Exception{
+	public Usuario getUsuario(Long id) throws UsuarioException{
 		
 		checkUsuariobyId(id);
 		return usuarioRepository.getOne(id);
 	}
 	
-	public void saveUsuario(Usuario usuario) throws Exception{
+	public void saveUsuario(Usuario usuario) throws PapelException{
 		
 		checkPapel(usuario.getPapel());
 		usuarioRepository.save(usuario);
 	}
 	
-	public void deleteUsuario(Long id) throws Exception{
+	public void deleteUsuario(Long id) throws UsuarioException{
 		
 		checkUsuariobyId(id);
 		usuarioRepository.deleteById(id);
 	}
 	
-	public void updateUsuario(Long id, Usuario usuario) throws Exception{
+	public void updateUsuario(Long id, Usuario usuario) throws UsuarioException{
 		
 		checkUsuariobyId(id);
 		usuarioRepository.save(usuario);
