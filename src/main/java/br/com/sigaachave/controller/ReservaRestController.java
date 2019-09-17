@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.sigaachave.domain.JsonResponse;
 import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.enums.StatusReserva;
+import br.com.sigaachave.exception.ReservaException;
+import br.com.sigaachave.exception.StatusException;
+import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.service.ReservaService;
 
@@ -32,64 +36,71 @@ public class ReservaRestController {
 		return new ResponseEntity<List<Reserva>>(reservaRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/reservas/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Reserva> get(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/reservas/{id}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> get(@PathVariable("id") Long id) {
 		
 		try {
-			return new ResponseEntity<Reserva>(reservaService.getReserva(id), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(reservaService.getReserva(id).toString(), HttpStatus.OK);
+		} catch (ReservaException e) {
+			return new ResponseEntity<>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/excluir", method = RequestMethod.DELETE)
-	public ResponseEntity<Reserva> remove(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/reservas/{id}/excluir", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<String> remove(@PathVariable("id") Long id) {
 		
 		try {
 			reservaService.deleteReserva(id);
-			return new ResponseEntity<Reserva>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva removida com sucesso!").toString(), HttpStatus.OK);
+		} catch (ReservaException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/adicionar/{sala}+{data}+{isFixo}", method = RequestMethod.POST)
-	public ResponseEntity<Reserva> add(Reserva reserva){
+	@RequestMapping(value = "/reservas/adicionar/{sala}+{data}+{isFixo}", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<String> add(Reserva reserva){
 		
 		reservaService.saveReserva(reserva);
-		return new ResponseEntity<>(HttpStatus.OK); 
+		return new ResponseEntity<>(new JsonResponse(HttpStatus.OK.toString(), "Reserva adicionada com sucesso!").toString(), HttpStatus.OK); 
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT)
-	public ResponseEntity<Reserva> update(@PathVariable("id") Long id, Reserva reserva){
+	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> update(@PathVariable("id") Long id, Reserva reserva){
 		
 		try {
 			reservaService.updateReserva(id, reserva);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atualizada com sucesso!").toString(), HttpStatus.OK);
+		} catch (ReservaException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		} catch (StatusException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/usuario/{usuarioId}", method = RequestMethod.PUT)
-	public ResponseEntity<Reserva> asign(@PathVariable("id") Long id, @PathVariable("usuarioId") Long usuarioId){
+	@RequestMapping(value = "/reservas/{id}/usuario/{usuarioId}", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> asign(@PathVariable("id") Long id, @PathVariable("usuarioId") Long usuarioId){
 		
 		try {
 			reservaService.asignToUsuario(id, usuarioId);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atribuida ao usuário com sucesso!").toString(), HttpStatus.OK);
+		} catch (ReservaException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		} catch (UsuarioException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/status/{status}", method = RequestMethod.PUT)
-	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
+
+	@RequestMapping(value = "/reservas/{id}/status/{status}", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
 		
 		try {
 			reservaService.changeStatus(id, status);
-			return new ResponseEntity<Reserva>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Reserva>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Status da reserva atualizado com sucesso!").toString(), HttpStatus.OK);
+		} catch (ReservaException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		} catch (StatusException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	

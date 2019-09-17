@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.JsonObject;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -52,4 +53,17 @@ public class Sala {
 		this.permiteFixo = permiteFixo;
 	}
 	
+	@Override
+	public String toString() {
+	
+		JsonObject object = new JsonObject();
+		
+		object.addProperty("id", getId());
+		object.addProperty("nome", getNome());
+		object.addProperty("localizacao", getLocalizacao());
+		object.addProperty("descricao", getDescricao());
+		object.addProperty("permiteFixo", isPermiteFixo());
+		
+		return object.toString();
+	}
 }

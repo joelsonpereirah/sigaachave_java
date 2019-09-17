@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.enums.StatusReserva;
-
+import br.com.sigaachave.exception.ReservaException;
+import br.com.sigaachave.exception.StatusException;
+import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.repository.UsuarioRepository;
 
@@ -26,33 +28,33 @@ public class ReservaService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	private void checkReservabyId(Long id) throws Exception{
+	private void checkReservabyId(Long id) throws ReservaException{
 		
 		if(!reservaRepository.existsById(id)) {
-			throw new Exception("Reserva não encontrada!");
+			throw new ReservaException("Reserva não encontrada!");
 		}
 	}
 	
-	private void checkStatus(StatusReserva status) throws Exception{
+	private void checkStatus(StatusReserva status) throws StatusException{
 		
 		List<StatusReserva> tipoStatus = Arrays.asList(StatusReserva.values());
 		
 		if(status.toString().equals("")) {
-			throw new Exception("Status vazio!");
+			throw new StatusException("Status vazio!");
 		}
 		
 		if(!tipoStatus.contains(status)) {
-			throw new Exception("Status inválido!");
+			throw new StatusException("Status inválido!");
 		}
 	}
 	
-	public Reserva getReserva(Long id) throws Exception {
+	public Reserva getReserva(Long id) throws ReservaException {
 		
 		checkReservabyId(id);
 		return reservaRepository.getOne(id);
 	}
 	
-	public void deleteReserva(Long id) throws Exception {
+	public void deleteReserva(Long id) throws ReservaException{
 		
 		checkReservabyId(id);
 		reservaRepository.deleteById(id);
@@ -64,13 +66,14 @@ public class ReservaService {
 		reservaRepository.save(reserva);
 	}
 	
-	public void updateReserva(Long id, Reserva reserva) throws Exception {
+	public void updateReserva(Long id, Reserva reserva) throws ReservaException, StatusException {
 		
 		checkReservabyId(id);
+		checkStatus(reserva.getStatus());
 		reservaRepository.save(reserva);
 	}
 	
-	public void asignToUsuario(Long id, Long usuarioId) throws Exception {
+	public void asignToUsuario(Long id, Long usuarioId) throws ReservaException, UsuarioException {
 		
 		checkReservabyId(id);
 		usuarioService.checkUsuariobyId(usuarioId);
@@ -81,7 +84,7 @@ public class ReservaService {
 		reservaRepository.save(reserva.get());
 	}
 	
-	public void changeStatus(Long id, StatusReserva status) throws Exception {
+	public void changeStatus(Long id, StatusReserva status) throws ReservaException, StatusException {
 		
 		checkReservabyId(id);
 		checkStatus(status);
