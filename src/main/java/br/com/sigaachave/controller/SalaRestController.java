@@ -17,7 +17,7 @@ import br.com.sigaachave.service.SalaService;
 
 @RestController
 @RequestMapping("/sigaachave")
-@CrossOrigin("localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SalaRestController {
 	
 	@Autowired
@@ -52,7 +52,7 @@ public class SalaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/salas/adicionar/{nome}+{descricao}+{localizacao}+{permiteFixo}", method = RequestMethod.POST)
+	@RequestMapping(value = "/salas/adicionar/{nome}+{localizacao}+{descricao}+{permiteFixo}", method = RequestMethod.POST)
 	public ResponseEntity<Sala> add(Sala sala){
 		
 		try {

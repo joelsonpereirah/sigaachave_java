@@ -82,7 +82,7 @@ public class ReservaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/status/{id}+{status}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/reservas/{id}/status/{status}", method = RequestMethod.PUT)
 	public ResponseEntity<Reserva> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
 		
 		try {
@@ -91,5 +91,12 @@ public class ReservaRestController {
 		} catch (Exception e) {
 			return new ResponseEntity<Reserva>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@RequestMapping(value = "/reservas/status/{status}", method = RequestMethod.GET)
+	public ResponseEntity<List<Reserva>> getByStatus(@PathVariable("status") StatusReserva status) throws Exception{
+		return new ResponseEntity<List<Reserva>>(reservaService.getByStatus(status), HttpStatus.OK);
+		
 	}	
+	
 }
