@@ -93,4 +93,12 @@ public class ReservaService {
 		reserva.get().setStatus(status);
 		reservaRepository.save(reserva.get());
 	}
+	
+	public List<Reserva> getByStatus(StatusReserva status) throws Exception {
+		
+		checkStatus(status);
+		List<Reserva> reservas = reservaRepository.findByStatus(status.toString());
+		
+		return reservas;
+	}
 }

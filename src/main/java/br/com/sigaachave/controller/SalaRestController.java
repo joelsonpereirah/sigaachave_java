@@ -22,7 +22,7 @@ import br.com.sigaachave.service.SalaService;
 
 @RestController
 @RequestMapping("/sigaachave")
-@CrossOrigin("localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SalaRestController {
 	
 	@Autowired
@@ -57,6 +57,7 @@ public class SalaRestController {
 		}
 	}
 	
+
 	@RequestMapping(value = "/salas/adicionar/{nome}+{descricao}+{localizacao}+{permiteFixo}", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<String> add(Sala sala){
 		

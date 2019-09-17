@@ -90,6 +90,7 @@ public class ReservaRestController {
 		}
 	}
 	
+
 	@RequestMapping(value = "/reservas/{id}/status/{status}", method = RequestMethod.PUT, produces = "application/json")
 	public ResponseEntity<String> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
 		
@@ -101,5 +102,12 @@ public class ReservaRestController {
 		} catch (StatusException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@RequestMapping(value = "/reservas/status/{status}", method = RequestMethod.GET)
+	public ResponseEntity<List<Reserva>> getByStatus(@PathVariable("status") StatusReserva status) throws Exception{
+		return new ResponseEntity<List<Reserva>>(reservaService.getByStatus(status), HttpStatus.OK);
+		
 	}	
+	
 }
