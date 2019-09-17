@@ -39,8 +39,19 @@ PUT - Atualiza reserva {id}
 PUT - Confirmar reserva pendente {id}  
 `ip:port/sigaachave/reservas/status/{id}`
 
-PUT - Atribui reserva {id} a usuario {usuarioId}  
-`ip:port/sigaachave/reservas/{id}/usuario/{usuarioId}`
+#### Salas
 
-DELETE - Exclui reserva {id}  
-`ip:port/sigaachave/reservas/{id}/excluir`
+GET - Retorna todas as salas  
+`ip:port/sigaachave/salas`
+
+GET - Retorna sala por {id}  
+`ip:port/sigaachave/salas/{id}`
+
+POST - Adiciona sala  
+`ip:port/sigaachave/salas/adicionar/{nome}+{localizacao}+{descricao}+{permiteFixar}`
+
+PUT - Atualiza sala {id}  
+`ip:port/sigaachave/salas/{id}/atualizar/{nome}+{descricao}+{localizacao}+{permiteFixo}`
+
+DELETE - Exclui sala {id}  
+`ip:port/sigaachave/salas/{id}/excluir`
