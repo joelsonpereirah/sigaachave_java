@@ -7,12 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.sigaachave.domain.Reserva;
-import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.enums.StatusReserva;
 import br.com.sigaachave.exception.ReservaException;
 import br.com.sigaachave.exception.StatusException;
 import br.com.sigaachave.exception.UsuarioException;
+import br.com.sigaachave.model.Reserva;
+import br.com.sigaachave.model.Usuario;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.repository.UsuarioRepository;
 

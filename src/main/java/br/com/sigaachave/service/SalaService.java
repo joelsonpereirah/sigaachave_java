@@ -3,8 +3,8 @@ package br.com.sigaachave.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.sigaachave.domain.Sala;
 import br.com.sigaachave.exception.SalaException;
+import br.com.sigaachave.model.Sala;
 import br.com.sigaachave.repository.SalaRepository;
 
 @Service

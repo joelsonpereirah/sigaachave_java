@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
-
-import br.com.sigaachave.domain.JsonResponse;
-import br.com.sigaachave.domain.Sala;
 import br.com.sigaachave.exception.SalaException;
+import br.com.sigaachave.model.JsonResponse;
+import br.com.sigaachave.model.Sala;
 import br.com.sigaachave.repository.SalaRepository;
 
 import br.com.sigaachave.service.SalaService;

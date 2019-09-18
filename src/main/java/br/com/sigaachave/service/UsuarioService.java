@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.enums.TipoPapel;
 import br.com.sigaachave.exception.PapelException;
 import br.com.sigaachave.exception.UsuarioException;
+import br.com.sigaachave.model.Usuario;
 import br.com.sigaachave.repository.UsuarioRepository;
 
 @Service
@@ -60,5 +60,10 @@ public class UsuarioService {
 		
 		checkUsuariobyId(id);
 		usuarioRepository.save(usuario);
+	}
+	
+	public Usuario getUsuarioByNome(String nome) {
+		
+		return usuarioRepository.byNome(nome);
 	}
 }

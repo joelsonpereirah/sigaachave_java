@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.sigaachave.domain.JsonResponse;
-import br.com.sigaachave.domain.Reserva;
-import br.com.sigaachave.domain.Usuario;
 import br.com.sigaachave.exception.PapelException;
 import br.com.sigaachave.exception.UsuarioException;
+import br.com.sigaachave.model.JsonResponse;
+import br.com.sigaachave.model.Reserva;
+import br.com.sigaachave.model.Usuario;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.repository.UsuarioRepository;
 import br.com.sigaachave.service.UsuarioService;

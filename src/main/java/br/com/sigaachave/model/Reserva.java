@@ -1,4 +1,4 @@
-package br.com.sigaachave.domain;
+package br.com.sigaachave.model;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;

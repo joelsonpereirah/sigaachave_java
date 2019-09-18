@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.sigaachave.domain.JsonResponse;
-import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.enums.StatusReserva;
 import br.com.sigaachave.exception.ReservaException;
 import br.com.sigaachave.exception.StatusException;
 import br.com.sigaachave.exception.UsuarioException;
+import br.com.sigaachave.model.JsonResponse;
+import br.com.sigaachave.model.Reserva;
 import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.service.ReservaService;
 

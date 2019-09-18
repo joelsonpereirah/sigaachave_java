@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.com.sigaachave.domain.Reserva;
 import br.com.sigaachave.enums.StatusReserva;
+import br.com.sigaachave.model.Reserva;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long>{
