@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sigaachave.exception.SalaException;
 import br.com.sigaachave.model.JsonResponse;
 import br.com.sigaachave.model.Sala;
-import br.com.sigaachave.repository.SalaRepository;
 
 import br.com.sigaachave.service.SalaService;
 
@@ -24,14 +23,11 @@ import br.com.sigaachave.service.SalaService;
 public class SalaRestController {
 	
 	@Autowired
-	private SalaRepository salaRepository;
-	
-	@Autowired
 	private SalaService salaService;
 	
 	@RequestMapping(value = "/salas", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<List<Sala>> all() {
-		return new ResponseEntity<List<Sala>>(salaRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Sala>>(salaService.getAllSala(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/salas/{id}", method = RequestMethod.GET, produces = "application/json")

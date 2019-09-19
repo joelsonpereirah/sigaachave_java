@@ -16,8 +16,7 @@ import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.model.JsonResponse;
 import br.com.sigaachave.model.Reserva;
 import br.com.sigaachave.model.Usuario;
-import br.com.sigaachave.repository.ReservaRepository;
-import br.com.sigaachave.repository.UsuarioRepository;
+import br.com.sigaachave.service.ReservaService;
 import br.com.sigaachave.service.UsuarioService;
 
 @RestController
@@ -29,14 +28,11 @@ public class UsuarioRestController {
 	private UsuarioService usuarioService;
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	@Autowired
-	private ReservaRepository reservaRepository;
+	private ReservaService reservaService;
 	
 	@RequestMapping(value = "/usuarios", method = RequestMethod.GET)
 	public ResponseEntity<List<Usuario>> all() {
-		return new ResponseEntity<List<Usuario>>(usuarioRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Usuario>>(usuarioService.getAllUsuario(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/usuarios/{id}", method = RequestMethod.GET, produces = "application/json")
@@ -85,6 +81,12 @@ public class UsuarioRestController {
 	@RequestMapping(value = "/usuarios/{id}/reservas", method = RequestMethod.GET)
 	public ResponseEntity<List<Reserva>> getByUser(@PathVariable("id") Long id){
 		
-		return new ResponseEntity<List<Reserva>>(reservaRepository.byUserId(id), HttpStatus.OK);
+		List<Reserva> reservas;
+		try {
+			reservas = reservaService.getReservaByUserId(id);
+			return new ResponseEntity<List<Reserva>>(reservas, HttpStatus.OK);
+		} catch (UsuarioException e) {
+			return new ResponseEntity<List<Reserva>>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

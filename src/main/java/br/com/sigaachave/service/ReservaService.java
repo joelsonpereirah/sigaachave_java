@@ -54,6 +54,17 @@ public class ReservaService {
 		return reservaRepository.getOne(id);
 	}
 	
+	public List<Reserva> getAllReserva() {
+		
+		return reservaRepository.findAll();
+	}
+	
+	public List<Reserva> getReservaByUserId(Long id) throws UsuarioException {
+		
+		usuarioService.checkUsuariobyId(id);
+		return reservaRepository.byUserId(id);
+	}
+	
 	public void deleteReserva(Long id) throws ReservaException{
 		
 		checkReservabyId(id);

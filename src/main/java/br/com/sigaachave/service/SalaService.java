@@ -1,5 +1,7 @@
 package br.com.sigaachave.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,12 @@ public class SalaService {
 		
 		checkSalaById(id);
 		return salaRepository.getOne(id);
-	}	
+	}
+	
+	public List<Sala> getAllSala() {
+		
+		return salaRepository.findAll();
+	}
 	
 	public void saveSala(Sala sala) throws SalaException{
 		

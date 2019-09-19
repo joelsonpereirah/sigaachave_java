@@ -44,6 +44,11 @@ public class UsuarioService {
 		return usuarioRepository.getOne(id);
 	}
 	
+	public List<Usuario> getAllUsuario() {
+		
+		return usuarioRepository.findAll();
+	}
+	
 	public void saveUsuario(Usuario usuario) throws PapelException{
 		
 		checkPapel(usuario.getPapel());

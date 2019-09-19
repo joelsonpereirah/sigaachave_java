@@ -17,7 +17,6 @@ import br.com.sigaachave.exception.StatusException;
 import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.model.JsonResponse;
 import br.com.sigaachave.model.Reserva;
-import br.com.sigaachave.repository.ReservaRepository;
 import br.com.sigaachave.service.ReservaService;
 
 @RestController
@@ -28,12 +27,9 @@ public class ReservaRestController {
 	@Autowired
 	private ReservaService reservaService;
 	
-	@Autowired
-	private ReservaRepository reservaRepository;
-	
 	@RequestMapping(value = "/reservas", method = RequestMethod.GET)
 	public ResponseEntity<List<Reserva>> all() {
-		return new ResponseEntity<List<Reserva>>(reservaRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Reserva>>(reservaService.getAllReserva(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reservas/{id}", method = RequestMethod.GET, produces = "application/json")
