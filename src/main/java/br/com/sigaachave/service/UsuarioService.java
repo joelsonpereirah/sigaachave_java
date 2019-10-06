@@ -38,6 +38,30 @@ public class UsuarioService {
 		}
 	}
 	
+	public Usuario updateCamposUsuario(Long id, String nome, String cpf, String senha, TipoPapel papel) throws PapelException {
+		
+		Usuario usuario = usuarioRepository.getOne(id);
+		
+		if(nome != null) {
+			usuario.setNome(nome);
+		}
+		
+		if(cpf != null) {
+			usuario.setCpf(cpf);
+		}
+		
+		if(senha != null) {
+			usuario.setSenha(senha);
+		}
+		
+		if(papel != null) {
+			checkPapel(papel);
+			usuario.setPapel(papel);
+		}
+		
+		return usuario;
+	}
+	
 	public Usuario getUsuario(Long id) throws UsuarioException{
 		
 		checkUsuariobyId(id);
@@ -61,14 +85,19 @@ public class UsuarioService {
 		usuarioRepository.deleteById(id);
 	}
 	
-	public void updateUsuario(Long id, Usuario usuario) throws UsuarioException{
+	public void updateUsuario(Long id, String nome, String cpf, String senha, TipoPapel papel) throws UsuarioException, PapelException{
 		
 		checkUsuariobyId(id);
-		usuarioRepository.save(usuario);
+		usuarioRepository.save(updateCamposUsuario(id, nome, cpf, senha, papel));
 	}
 	
 	public Usuario getUsuarioByNome(String nome) {
 		
 		return usuarioRepository.byNome(nome);
+	}
+	
+	public Usuario getUsuarioByCPF(String cpf) {
+		
+		return usuarioRepository.byCPF(cpf);
 	}
 }

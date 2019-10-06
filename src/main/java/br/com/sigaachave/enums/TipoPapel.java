@@ -2,17 +2,17 @@ package br.com.sigaachave.enums;
 
 public enum TipoPapel {
 	
-	USUARIO("Usuario"),
-	COORDENADOR("Coordenador"),
-	ADMIN("Administrador");
+	BOLSISTA(0),
+	COORDENADOR(1),
+	ADMIN(2);
 	
-	private String descricao;
+	private int valor;
 	
-	TipoPapel(String descricao) {
-		this.descricao = descricao;
+	TipoPapel(int valor) {
+		this.valor = valor;
 	}
 	
-	public String getDescricao() {
-		return descricao;
+	public int getValor() {
+		return valor;
 	}
 }

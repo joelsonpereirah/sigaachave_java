@@ -1,5 +1,7 @@
 package br.com.sigaachave.model;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,13 +16,36 @@ public class Sala {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
+	@Column(name = "NOME", nullable = false, length = 25)
 	private String nome;
+	
+	@Column(name = "LOCALIZACAO", nullable = false, length = 255)
 	private String localizacao;
 	
+	@Column(name = "DESCRICAO", nullable = false, length = 255)
 	private String descricao;
-	private boolean permiteFixo;
+	
+	@Column(name = "PERMITE_FIXO")
+	private Boolean permiteFixo;
+	
+	public Sala() {};
+	
+	public Sala(Long id, String nome, String localizacao, String descricao, boolean permiteFixo) {
+		this.id = id;
+		this.nome = nome;
+		this.localizacao = localizacao;
+		this.descricao = descricao;
+		this.permiteFixo = permiteFixo;
+	}
+	
+	public Sala(String nome, String localizacao, String descricao, boolean permiteFixo) {
+		this.nome = nome;
+		this.localizacao = localizacao;
+		this.descricao = descricao;
+		this.permiteFixo = permiteFixo;
+	}
 	
 	public long getId() {
 		return id;
@@ -46,7 +71,7 @@ public class Sala {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public boolean isPermiteFixo() {
+	public Boolean isPermiteFixo() {
 		return permiteFixo;
 	}
 	public void setPermiteFixo(boolean permiteFixo) {

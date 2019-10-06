@@ -33,6 +33,7 @@ public class JwtTokenUtil implements Serializable {
 
 	//retrieve username from jwt token
 	public String getUsernameFromToken(String token) {
+		token = token.replaceAll("Bearer ", "");
 		return getClaimFromToken(token, Claims::getSubject);
 	}
 

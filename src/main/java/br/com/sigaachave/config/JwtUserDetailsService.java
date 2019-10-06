@@ -25,14 +25,14 @@ public class JwtUserDetailsService implements UserDetailsService {
 	PasswordEncoder passwordEncoder;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
 		
-		Usuario usuario = usuarioService.getUsuarioByNome(username);
+		Usuario usuario = usuarioService.getUsuarioByCPF(cpf);
 		
 		List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
 		authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		
-		return new org.springframework.security.core.userdetails.User(usuario.getNome(), passwordEncoder.encode(usuario.getSenha()), authList);
+		return new org.springframework.security.core.userdetails.User(usuario.getCpf(), passwordEncoder.encode(usuario.getSenha()), authList);
 	}
 
 }

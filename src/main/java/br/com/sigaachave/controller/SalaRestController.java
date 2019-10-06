@@ -2,13 +2,15 @@ package br.com.sigaachave.controller;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sigaachave.exception.SalaException;
@@ -30,8 +32,8 @@ public class SalaRestController {
 		return new ResponseEntity<List<Sala>>(salaService.getAllSala(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/salas/{id}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<String> get(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/sala", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> get(@PathParam("id") Long id) {
 		
 		try {
 			return new ResponseEntity<String>(salaService.getSala(id).toString(), HttpStatus.OK);
@@ -40,8 +42,8 @@ public class SalaRestController {
 		}	
 	}
 	
-	@RequestMapping(value = "/salas/{id}/excluir", method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<String> remove(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/sala/excluir", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<String> remove(@PathParam("id") Long id) {
 		
 		try {
 			salaService.deleteSala(id);
@@ -52,8 +54,10 @@ public class SalaRestController {
 	}
 	
 
-	@RequestMapping(value = "/salas/adicionar/{nome}+{descricao}+{localizacao}+{permiteFixo}", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<String> add(Sala sala){
+	@RequestMapping(value = "/sala/adicionar", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<String> add(@RequestParam(value = "nome", required=true) String nome, @RequestParam(value = "localizacao", required=true) String localizacao, @RequestParam(value = "descricao", required=true) String descricao, @RequestParam(value = "permiteFixo", required=true) boolean permiteFixo){
+		
+		Sala sala = new Sala(nome, localizacao, descricao, permiteFixo);
 		
 		try {
 			salaService.saveSala(sala);
@@ -63,11 +67,11 @@ public class SalaRestController {
 		} 
 	}
 	
-	@RequestMapping(value = "/salas/{id}/atualizar/{nome}+{descricao}+{localizacao}+{permiteFixo}", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> update(@PathVariable Long id, Sala sala) {
+	@RequestMapping(value = "/sala/atualizar", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> update(@RequestParam(value = "id", required=true) Long id, @PathParam(value = "nome") String nome, @PathParam(value = "localizacao") String localizacao, @PathParam(value = "descricao") String descricao, @PathParam(value = "permiteFixo") Boolean permiteFixo) {
 		
 		try {
-			salaService.updateSala(id, sala);
+			salaService.updateSala(id, nome, localizacao, descricao, permiteFixo);
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Sala atualizada com sucesso!").toString(), HttpStatus.OK); 
 		} catch (SalaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);

@@ -3,6 +3,7 @@ package br.com.sigaachave.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,7 +15,6 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonObject;
 
 import br.com.sigaachave.enums.TipoPapel;
@@ -25,25 +25,54 @@ public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@Column(name = "ID")
+	private Long id;
 	
+	@Column(name = "CPF", updatable = false,nullable = false, length = 11)
+	private String cpf;
+	
+	@Column(name = "NOME", nullable = false, length = 25)
 	private String nome;
+	
+	@Column(name = "SENHA", nullable = false, length = 25)
 	private String senha;
 	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "PAPEL", nullable = false)
+	private TipoPapel papel;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "usuario", targetEntity = Reserva.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
 	
-	@Enumerated(EnumType.STRING)
-	private TipoPapel papel;
-
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "usuario", targetEntity = Reserva.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	private List<Chamado> chamados;
+	
+	public Usuario() {}
+	
+	public Usuario(String nome, String cpf, String senha, TipoPapel papel) {
+		
+		this.nome = nome;
+		this.cpf = cpf;
+		this.senha = senha;
+		this.papel = papel;
+	}
+	
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getNome() {
@@ -76,6 +105,7 @@ public class Usuario {
 		JsonObject object = new JsonObject();
 		
 		object.addProperty("id", getId());
+		object.addProperty("cpf", getCpf());
 		object.addProperty("nome", getNome());
 		object.addProperty("senha", getSenha());
 		object.addProperty("papel", getPapel().toString());

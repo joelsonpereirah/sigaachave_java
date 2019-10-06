@@ -2,17 +2,17 @@ package br.com.sigaachave.enums;
 
 public enum StatusReserva {
 	
-	PENDENTE("Pendente"),
-	CONFIRMADA("Confirmada"),
-	CANCELADA("Cancelada");
+	PENDENTE(0),
+	CONFIRMADA(1),
+	CANCELADA(2);
 	
-	private String descricao;
+	private int valor;
 	
-	StatusReserva(String descricao) {
-		this.descricao = descricao;
+	StatusReserva(int valor) {
+		this.valor = valor;
 	}
 	
-	public String getDescricao() {
-		return descricao;
+	public int getValor() {
+		return valor;
 	}
 }

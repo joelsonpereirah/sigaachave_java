@@ -11,4 +11,7 @@ public interface UsuarioRepository  extends JpaRepository<Usuario, Long>{
 	
 	@Query(value = "SELECT * FROM USUARIO WHERE NOME = ?1",nativeQuery = true)
 	Usuario byNome(String nome);
+	
+	@Query(value = "SELECT * FROM USUARIO WHERE CPF = ?1",nativeQuery = true)
+	Usuario byCPF(String cpf);
 }

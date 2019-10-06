@@ -7,10 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.sigaachave.config.JwtTokenUtil;
 import br.com.sigaachave.enums.StatusReserva;
 import br.com.sigaachave.exception.ReservaException;
 import br.com.sigaachave.exception.StatusException;
@@ -27,13 +30,18 @@ public class ReservaRestController {
 	@Autowired
 	private ReservaService reservaService;
 	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
 	@RequestMapping(value = "/reservas", method = RequestMethod.GET)
 	public ResponseEntity<List<Reserva>> all() {
 		return new ResponseEntity<List<Reserva>>(reservaService.getAllReserva(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/reservas/{id}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<String> get(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/reserva", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> get(@RequestHeader(value = "Authorization") String token,@RequestParam(value = "id", required = true) Long id) {
+		
+		System.out.println(jwtTokenUtil.getUsernameFromToken(token));
 		
 		try {
 			return new ResponseEntity<String>(reservaService.getReserva(id).toString(), HttpStatus.OK);
