@@ -26,7 +26,6 @@ public class Reserva {
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO", nullable = false)
-	@JsonIgnore
 	private Usuario usuario;
 	
 	@Column(name = "ID_AVALIADOR")
@@ -46,7 +45,18 @@ public class Reserva {
 	private int horaConsulta;
 	
 	@Column(name = "IS_FIXA", nullable = false)
-	private boolean isFixa;
+	private Boolean isFixa;
+	
+	public Reserva() {}
+	
+	public Reserva(Usuario usuario, String sala, int diaConsulta, int horaConsulta, Boolean isFixa) {
+		
+		this.usuario = usuario;
+		this.sala = sala;
+		this.diaConsulta = diaConsulta;
+		this.horaConsulta = horaConsulta;
+		this.isFixa = isFixa;
+	}
 	
 	public long getId() {
 		return id;
@@ -92,7 +102,7 @@ public class Reserva {
 		this.usuario = usuario;
 	}
 	
-	public boolean isFixa() {
+	public Boolean isFixa() {
 		return isFixa;
 	}
 	public void setFixa(boolean isFixa) {
@@ -104,6 +114,7 @@ public class Reserva {
 		JsonObject object = new JsonObject();
 		
 		object.addProperty("id", getId());
+		object.addProperty("idUsuario", usuario.getId());
 		object.addProperty("sala", getSala());
 		object.addProperty("diaConsulta", getDiaConsulta());
 		object.addProperty("horaConsulta", getHoraConsulta());

@@ -21,6 +21,7 @@ import br.com.sigaachave.exception.UsuarioException;
 import br.com.sigaachave.model.JsonResponse;
 import br.com.sigaachave.model.Reserva;
 import br.com.sigaachave.service.ReservaService;
+import br.com.sigaachave.service.UsuarioService;
 
 @RestController
 @RequestMapping("/sigaachave")
@@ -31,6 +32,9 @@ public class ReservaRestController {
 	private ReservaService reservaService;
 	
 	@Autowired
+	private UsuarioService usuarioService;
+	
+	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 	
 	@RequestMapping(value = "/reservas", method = RequestMethod.GET)
@@ -39,9 +43,7 @@ public class ReservaRestController {
 	}
 	
 	@RequestMapping(value = "/reserva", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<String> get(@RequestHeader(value = "Authorization") String token,@RequestParam(value = "id", required = true) Long id) {
-		
-		System.out.println(jwtTokenUtil.getUsernameFromToken(token));
+	public ResponseEntity<String> get(@RequestParam(value = "id", required = true) Long id) {
 		
 		try {
 			return new ResponseEntity<String>(reservaService.getReserva(id).toString(), HttpStatus.OK);
@@ -50,8 +52,8 @@ public class ReservaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/excluir", method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<String> remove(@PathVariable("id") Long id) {
+	@RequestMapping(value = "/reserva/excluir", method = RequestMethod.DELETE, produces = "application/json")
+	public ResponseEntity<String> remove(@RequestParam(value = "id", required = true) Long id) {
 		
 		try {
 			reservaService.deleteReserva(id);
@@ -61,15 +63,19 @@ public class ReservaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/adicionar/{sala}+{data}+{isFixo}", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<String> add(Reserva reserva){
+	@RequestMapping(value = "/reserva/adicionar", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<String> add(@RequestHeader(value = "Authorization") String token, @RequestParam(value = "sala", required = true) String sala, @RequestParam(value = "diaConsulta", required = true) int diaConsulta, @RequestParam(value = "horaConsulta", required = true) int horaConsulta, @RequestParam(value = "isFixa", required = true) Boolean isFixa){
+		
+		
+		
+		Reserva reserva = new Reserva(usuarioService.getUsuarioByCPF(jwtTokenUtil.getUsernameFromToken(token)), sala, diaConsulta, horaConsulta, isFixa);
 		
 		reservaService.saveReserva(reserva);
 		return new ResponseEntity<>(new JsonResponse(HttpStatus.OK.toString(), "Reserva adicionada com sucesso!").toString(), HttpStatus.OK); 
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> update(@PathVariable("id") Long id, Reserva reserva){
+	@RequestMapping(value = "/reserva/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id){
 		
 		try {
 			reservaService.updateReserva(id, reserva);
@@ -81,35 +87,8 @@ public class ReservaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/{id}/usuario/{usuarioId}", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> asign(@PathVariable("id") Long id, @PathVariable("usuarioId") Long usuarioId){
-		
-		try {
-			reservaService.asignToUsuario(id, usuarioId);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atribuida ao usuário com sucesso!").toString(), HttpStatus.OK);
-		} catch (ReservaException e) {
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
-		} catch (UsuarioException e) {
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
-		}
-	}
-	
-
-	@RequestMapping(value = "/reservas/{id}/status/{status}", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> attStatus(@PathVariable("id") Long id, @PathVariable("status") StatusReserva status){
-		
-		try {
-			reservaService.changeStatus(id, status);
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Status da reserva atualizado com sucesso!").toString(), HttpStatus.OK);
-		} catch (ReservaException e) {
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
-		} catch (StatusException e) {
-			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	@RequestMapping(value = "/reservas/status/{status}", method = RequestMethod.GET)
-	public ResponseEntity<List<Reserva>> getByStatus(@PathVariable("status") StatusReserva status) throws Exception{
+	@RequestMapping(value = "/reservas/status", method = RequestMethod.GET)
+	public ResponseEntity<List<Reserva>> getByStatus(@RequestParam(value = "status", required = true) StatusReserva status) throws Exception{
 		return new ResponseEntity<List<Reserva>>(reservaService.getByStatus(status), HttpStatus.OK);
 		
 	}	

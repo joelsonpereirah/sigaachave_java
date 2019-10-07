@@ -65,7 +65,7 @@ public class UsuarioRestController {
 		} 
 	}
 	
-	@RequestMapping(value = "/usuario/atualizar/", method = RequestMethod.PUT, produces = "application/json")
+	@RequestMapping(value = "/usuario/atualizar", method = RequestMethod.PUT, produces = "application/json")
 	public ResponseEntity<String> update(@RequestParam(name = "id", required = true) Long id, @RequestParam(name = "nome") String nome, @RequestParam(name = "cpf") String cpf, @RequestParam(name = "senha") String senha, @RequestParam(name = "papel") TipoPapel papel){
 		
 		try {
