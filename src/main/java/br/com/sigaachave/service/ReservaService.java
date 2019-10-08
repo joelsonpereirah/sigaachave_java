@@ -1,5 +1,7 @@
 package br.com.sigaachave.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -54,9 +56,20 @@ public class ReservaService {
 		return reservaRepository.getOne(id);
 	}
 	
-	public List<Reserva> getAllReserva() {
+	public String getAllReserva() {
 		
-		return reservaRepository.findAll();
+		String json = "[";
+		
+		List<Reserva> reservas =  reservaRepository.findAll();
+		
+		for(Reserva reserva : reservas) {
+			
+			json += reserva.toString();
+		}
+		
+		json += "]";
+		
+		return json;
 	}
 	
 	public List<Reserva> getReservaByUserId(Long id) throws UsuarioException {
@@ -71,7 +84,11 @@ public class ReservaService {
 		reservaRepository.deleteById(id);
 	}
 	
-	public void saveReserva(Reserva reserva) {
+	public void saveReserva(Long idUsuario, String sala, String dataConsulta, int horaConsulta, Boolean isFixa) throws UsuarioException, ParseException {
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd"); 
+		
+		Reserva reserva = new Reserva(usuarioService.getUsuario(idUsuario), sala, formato.parse(dataConsulta), horaConsulta, isFixa);
 		
 		reserva.setStatus(StatusReserva.PENDENTE);
 		reservaRepository.save(reserva);

@@ -1,5 +1,7 @@
 package br.com.sigaachave.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,8 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.JsonObject;
 
@@ -34,12 +40,15 @@ public class Reserva {
 	@Column(name = "SALA", nullable = false)
 	private String sala;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(name = "STATUS")
 	private StatusReserva status = StatusReserva.PENDENTE;
 	
-	@Column(name = "DIA_CONSULTA")
-	private int diaConsulta;
+	@Column(name="DATA_CONSULTA")
+	@CreatedDate
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	@Temporal(TemporalType.DATE)
+	private Date dataConsulta;
 	
 	@Column(name = "HORA_CONSULTA")
 	private int horaConsulta;
@@ -49,16 +58,16 @@ public class Reserva {
 	
 	public Reserva() {}
 	
-	public Reserva(Usuario usuario, String sala, int diaConsulta, int horaConsulta, Boolean isFixa) {
+	public Reserva(Usuario usuario, String sala, Date dataConsulta, int horaConsulta, Boolean isFixa) {
 		
 		this.usuario = usuario;
 		this.sala = sala;
-		this.diaConsulta = diaConsulta;
+		this.dataConsulta = dataConsulta;
 		this.horaConsulta = horaConsulta;
 		this.isFixa = isFixa;
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setId(long id) {
@@ -77,12 +86,14 @@ public class Reserva {
 	public void setIdAvaliador(long idAvaliador) {
 		this.idAvaliador = idAvaliador;
 	}
-	public int getDiaConsulta() {
-		return diaConsulta;
+	public Date getDataConsulta() {
+		return dataConsulta;
 	}
-	public void setDiaConsulta(int diaConsulta) {
-		this.diaConsulta = diaConsulta;
+
+	public void setDataConsulta(Date dataConsulta) {
+		this.dataConsulta = dataConsulta;
 	}
+
 	public int getHoraConsulta() {
 		return horaConsulta;
 	}
@@ -115,11 +126,6 @@ public class Reserva {
 		
 		object.addProperty("id", getId());
 		object.addProperty("idUsuario", usuario.getId());
-		object.addProperty("sala", getSala());
-		object.addProperty("diaConsulta", getDiaConsulta());
-		object.addProperty("horaConsulta", getHoraConsulta());
-		object.addProperty("isFixo", isFixa());
-		object.addProperty("status", getStatus().toString());
 		
 		if(getIdAvaliador() == null) {
 			object.addProperty("idAvaliador", "");
@@ -127,6 +133,12 @@ public class Reserva {
 		else {
 			object.addProperty("idAvaliador", getIdAvaliador());
 		}
+		
+		object.addProperty("sala", getSala());
+		object.addProperty("diaConsulta", getDataConsulta().toString());
+		object.addProperty("horaConsulta", getHoraConsulta());
+		object.addProperty("isFixo", isFixa());
+		object.addProperty("status", getStatus().toString());
 		
 		return object.toString();
 	}

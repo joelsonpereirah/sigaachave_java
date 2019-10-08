@@ -16,6 +16,7 @@ public class Sala {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", nullable = false, unique = true)
 	private Long id;
 	
 	@Column(name = "NOME", nullable = false, length = 25)
@@ -47,7 +48,7 @@ public class Sala {
 		this.permiteFixo = permiteFixo;
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setId(long id) {

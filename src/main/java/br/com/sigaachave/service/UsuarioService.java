@@ -38,6 +38,15 @@ public class UsuarioService {
 		}
 	}
 	
+	private void checkUsuarioByCPF(String cpf) throws Exception {
+		
+		Usuario usuario = usuarioRepository.byCPF(cpf);
+		
+		if(usuario != null) {
+			throw new Exception("CPF já cadastrado!");
+		}
+	}
+	
 	public Usuario updateCamposUsuario(Long id, String nome, String cpf, String senha, TipoPapel papel) throws PapelException {
 		
 		Usuario usuario = usuarioRepository.getOne(id);
@@ -73,9 +82,10 @@ public class UsuarioService {
 		return usuarioRepository.findAll();
 	}
 	
-	public void saveUsuario(Usuario usuario) throws PapelException{
+	public void saveUsuario(Usuario usuario) throws PapelException, Exception{
 		
 		checkPapel(usuario.getPapel());
+		checkUsuarioByCPF(usuario.getCpf());
 		usuarioRepository.save(usuario);
 	}
 	

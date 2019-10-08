@@ -1,5 +1,7 @@
 package br.com.sigaachave.controller;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +39,9 @@ public class ReservaRestController {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 	
-	@RequestMapping(value = "/reservas", method = RequestMethod.GET)
-	public ResponseEntity<List<Reserva>> all() {
-		return new ResponseEntity<List<Reserva>>(reservaService.getAllReserva(), HttpStatus.OK);
+	@RequestMapping(value = "/reservas", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> all() {
+		return new ResponseEntity<String>(reservaService.getAllReserva(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/reserva", method = RequestMethod.GET, produces = "application/json")
@@ -64,14 +66,16 @@ public class ReservaRestController {
 	}
 	
 	@RequestMapping(value = "/reserva/adicionar", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<String> add(@RequestHeader(value = "Authorization") String token, @RequestParam(value = "sala", required = true) String sala, @RequestParam(value = "diaConsulta", required = true) int diaConsulta, @RequestParam(value = "horaConsulta", required = true) int horaConsulta, @RequestParam(value = "isFixa", required = true) Boolean isFixa){
+	public ResponseEntity<String> add(@RequestParam(value = "idUsuario") Long idUsuario, @RequestParam(value = "sala", required = true) String sala, @RequestParam(value = "dataConsulta", required = true) String dataConsulta, @RequestParam(value = "horaConsulta", required = true) int horaConsulta, @RequestParam(value = "isFixa", required = true) Boolean isFixa){
 		
-		
-		
-		Reserva reserva = new Reserva(usuarioService.getUsuarioByCPF(jwtTokenUtil.getUsernameFromToken(token)), sala, diaConsulta, horaConsulta, isFixa);
-		
-		reservaService.saveReserva(reserva);
-		return new ResponseEntity<>(new JsonResponse(HttpStatus.OK.toString(), "Reserva adicionada com sucesso!").toString(), HttpStatus.OK); 
+		try {
+			reservaService.saveReserva( idUsuario, sala, dataConsulta, horaConsulta, isFixa);
+			return new ResponseEntity<>(new JsonResponse(HttpStatus.OK.toString(), "Reserva adicionada com sucesso!").toString(), HttpStatus.OK); 
+		} catch (UsuarioException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		} catch (ParseException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@RequestMapping(value = "/reserva/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT, produces = "application/json")

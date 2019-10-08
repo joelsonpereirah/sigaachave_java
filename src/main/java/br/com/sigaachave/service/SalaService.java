@@ -94,6 +94,7 @@ public class SalaService {
 	public void updateSala(Long id, String nome, String localizacao, String descricao, Boolean permiteFixo) throws SalaException {
 		
 		checkSalaById(id);
+		checkSalaByNome(nome);
 		salaRepository.save(updateCamposSala(id, nome, localizacao, descricao, permiteFixo));
 	}	
 }

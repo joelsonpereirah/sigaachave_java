@@ -25,7 +25,7 @@ public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+	@Column(name = "ID", nullable = false, unique = true)
 	private Long id;
 	
 	@Column(name = "CPF", updatable = false,nullable = false, length = 11)
@@ -37,7 +37,7 @@ public class Usuario {
 	@Column(name = "SENHA", nullable = false, length = 25)
 	private String senha;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(name = "PAPEL", nullable = false)
 	private TipoPapel papel;
 	
@@ -59,7 +59,7 @@ public class Usuario {
 		this.papel = papel;
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

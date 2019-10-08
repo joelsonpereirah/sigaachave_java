@@ -1,5 +1,6 @@
 package br.com.sigaachave.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,10 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 	
 	@Query(value = "SELECT * FROM RESERVA WHERE status = ?1",nativeQuery = true)
 	List<Reserva> findByStatus(String status);
+	
+	@Query(value = "SELECT * FROM RESERVA WHERE sala = ?1", nativeQuery = true)
+	List<Reserva> bySala(String sala);
+	
+	@Query(value = "SELECT * FROM RESERVA WHERE date = ?1", nativeQuery = true)
+	List<Reserva> byData(Date data);
 }

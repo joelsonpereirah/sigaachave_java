@@ -62,7 +62,9 @@ public class UsuarioRestController {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Usuário adicionado com sucesso!").toString(), HttpStatus.OK); 
 		} catch (PapelException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
-		} 
+		} catch (Exception e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@RequestMapping(value = "/usuario/atualizar", method = RequestMethod.PUT, produces = "application/json")
