@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.sigaachave.enums.StatusChamado;
-import br.com.sigaachave.enums.StatusReserva;
 import br.com.sigaachave.exception.ChamadoException;
 import br.com.sigaachave.exception.SalaException;
 import br.com.sigaachave.exception.StatusException;

@@ -1,8 +1,5 @@
 package br.com.sigaachave.controller;
 
-import java.text.ParseException;
-import java.util.List;
-
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;

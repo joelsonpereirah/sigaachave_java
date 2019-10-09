@@ -9,8 +9,8 @@ insert into SALA values(3, 'Sala de atendimento adulto', 'Setor de Psicologia, U
 insert into SALA values(4, 'Sala de atendimento adulto', 'Setor de Psicologia, UFRN', 'A104', FALSE);
 
 insert into RESERVA values(1, '2004-01-22', 8, null, false, 'A101', 'PENDENTE', 1);
-insert into RESERVA values(2, '2004-01-22', 9, null, false, 'A101', 'CANCELADA', 1);
-insert into RESERVA values(3, '2004-01-23', 16, 2, false, 'A101', 'CONFIRMADA', 1);
+insert into RESERVA values(2, '2004-01-22', 9, null, false, 'A101', 'CANCELADA', 2);
+insert into RESERVA values(3, '2004-01-23', 16, 2, false, 'A101', 'CONFIRMADA', 3);
 insert into RESERVA values(4, '2004-01-24', 17, 1, false, 'A101', 'CONFIRMADA', 1);
 
 insert into CHAMADO values(1, 'Lampada queimada', null, 'A101', 'PENDENTE', 3);

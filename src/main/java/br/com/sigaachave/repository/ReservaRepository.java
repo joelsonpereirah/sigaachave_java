@@ -1,6 +1,5 @@
 package br.com.sigaachave.repository;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +11,7 @@ import br.com.sigaachave.model.Reserva;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 	
-	@Query(value = "SELECT * FROM RESERVA WHERE usuario_id = ?1",nativeQuery = true)
+	@Query(value = "SELECT * FROM RESERVA WHERE id_usuario = ?1",nativeQuery = true)
 	List<Reserva> byUserId(Long id);
 	
 	@Query(value = "SELECT * FROM RESERVA WHERE status = ?1",nativeQuery = true)
@@ -21,6 +20,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long>{
 	@Query(value = "SELECT * FROM RESERVA WHERE sala = ?1", nativeQuery = true)
 	List<Reserva> bySala(String sala);
 	
-	@Query(value = "SELECT * FROM RESERVA WHERE date = ?1", nativeQuery = true)
-	List<Reserva> byData(Date data);
+	@Query(value = "SELECT * FROM RESERVA WHERE data_consulta = ?1", nativeQuery = true)
+	List<Reserva> byData(String data);
 }

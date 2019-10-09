@@ -109,10 +109,10 @@ public class ReservaService {
 		return listToJson(reservas);
 	}
 	
-	public List<Reserva> getReservaByUserId(Long id) throws UsuarioException {
+	public String getReservaByUserId(Long id) throws UsuarioException {
 		
 		usuarioService.checkUsuariobyId(id);
-		return reservaRepository.byUserId(id);
+		return listToJson(reservaRepository.byUserId(id));
 	}
 	
 	public void deleteReserva(Long id) throws ReservaException{
@@ -162,5 +162,10 @@ public class ReservaService {
 		List<Reserva> reservas = reservaRepository.findByStatus(status.toString());
 		
 		return listToJson(reservas);
+	}
+	
+	public String getByData(String data) throws ParseException {
+		
+		return listToJson(reservaRepository.byData(data));
 	}
 }
