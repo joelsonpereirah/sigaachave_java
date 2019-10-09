@@ -25,16 +25,25 @@ GET - Retorna todas reservas
 `ip:port/sigaachave/reservas`
 
 GET - Retorna reserva {id}  
-`ip:port/sigaachave/reservas/{id}`
+`ip:port/sigaachave/reserva?id={value}`
 
 POST - Adiciona reserva  
-`ip:port/sigaachave/reservas/adicionar/{sala}+{data}+{isFixo}`
+`ip:port/sigaachave/reserva/adicionar?sala={value}&dataConsulta={value}&horaConsulta={value}&isFixa={value}`
 
 PUT - Atualiza reserva {id}  
-`ip:port/sigaachave/reservas/{id}/atualizar/{sala}+{data}+{status}`
+`ip:port/sigaachave/reserva/atualizar?id={value}&sala={value}&dataConsulta={value}&horaConsulta={value}&isFixa={value}`
 
-PUT - Confirmar reserva pendente {id}  
-`ip:port/sigaachave/reservas/status/{id}`
+DELETE - Exclui sala {id}  
+`ip:port/sigaachave/reserva/excluir?id={value}`
+
+GET - Retorna todas reservas {status}
+`ip:port/sigaachave/reservas/status?status={value}`
+
+GET - Retorna todas reservas {idUsuario}
+`ip:port/sigaachave/reservas/usuario?idUsuario={idUsuario}`
+
+GET - Retorna todas reservas {data}
+`ip:port/sigaachave/reservas/status?data={value}`
 
 #### Sala
 
