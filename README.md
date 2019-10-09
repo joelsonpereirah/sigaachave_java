@@ -54,7 +54,7 @@ DELETE - Exclui sala {id}
 `ip:port/sigaachave/sala/excluir?id={value}`
 
 
-### Chamado
+#### Chamado
 
 GET - Retorna todos os chamados
 `ip:port/sigaachave/chamados`
