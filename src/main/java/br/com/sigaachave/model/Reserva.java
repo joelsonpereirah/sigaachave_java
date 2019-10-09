@@ -135,9 +135,9 @@ public class Reserva {
 		}
 		
 		object.addProperty("sala", getSala());
-		object.addProperty("diaConsulta", getDataConsulta().toString());
+		object.addProperty("dataConsulta", getDataConsulta().toString());
 		object.addProperty("horaConsulta", getHoraConsulta());
-		object.addProperty("isFixo", isFixa());
+		object.addProperty("isFixa", isFixa());
 		object.addProperty("status", getStatus().toString());
 		
 		return object.toString();

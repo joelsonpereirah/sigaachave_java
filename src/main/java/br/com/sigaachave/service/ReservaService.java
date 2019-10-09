@@ -3,6 +3,7 @@ package br.com.sigaachave.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,51 @@ public class ReservaService {
 		}
 	}
 	
+	public Reserva updateCamposSala(Long id, String sala, String dataConsulta, Integer horaConsulta, Boolean isFixa) throws ParseException {
+		
+		Reserva oldReserva = reservaRepository.getOne(id);
+		
+		if(sala != null) {
+			oldReserva.setSala(sala);
+		}
+		if(dataConsulta != null) {
+			oldReserva.setDataConsulta(stringToDate(dataConsulta));
+		}
+		if(horaConsulta != null) {
+			oldReserva.setHoraConsulta(horaConsulta);
+		}
+		if(isFixa != null) {
+			oldReserva.setFixa(isFixa);
+		}
+		
+		return oldReserva;
+	}
+	
+	public Date stringToDate(String date) throws ParseException {
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
+		
+		return formato.parse(date);
+	}
+	
+	public String listToJson(List<Reserva> reservas) {
+		
+		String json = "[";
+		
+		for(int i = 0; i < reservas.size(); i++) {
+			
+			json += reservas.get(i).toString();
+			
+			if(i < reservas.size()-1) {
+				json += ",";
+			}
+		}
+		
+		json += "]";
+		
+		return json;
+	}
+	
 	public Reserva getReserva(Long id) throws ReservaException {
 		
 		checkReservabyId(id);
@@ -58,18 +104,9 @@ public class ReservaService {
 	
 	public String getAllReserva() {
 		
-		String json = "[";
-		
 		List<Reserva> reservas =  reservaRepository.findAll();
 		
-		for(Reserva reserva : reservas) {
-			
-			json += reserva.toString();
-		}
-		
-		json += "]";
-		
-		return json;
+		return listToJson(reservas);
 	}
 	
 	public List<Reserva> getReservaByUserId(Long id) throws UsuarioException {
@@ -86,19 +123,16 @@ public class ReservaService {
 	
 	public void saveReserva(Long idUsuario, String sala, String dataConsulta, int horaConsulta, Boolean isFixa) throws UsuarioException, ParseException {
 		
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd"); 
-		
-		Reserva reserva = new Reserva(usuarioService.getUsuario(idUsuario), sala, formato.parse(dataConsulta), horaConsulta, isFixa);
+		Reserva reserva = new Reserva(usuarioService.getUsuario(idUsuario), sala, stringToDate(dataConsulta), horaConsulta, isFixa);
 		
 		reserva.setStatus(StatusReserva.PENDENTE);
 		reservaRepository.save(reserva);
 	}
 	
-	public void updateReserva(Long id, Reserva reserva) throws ReservaException, StatusException {
+	public void updateReserva(Long id, String sala, String dataConsulta, Integer horaConsulta, Boolean isFixa) throws ReservaException, StatusException, ParseException {
 		
 		checkReservabyId(id);
-		checkStatus(reserva.getStatus());
-		reservaRepository.save(reserva);
+		reservaRepository.save(updateCamposSala(id, sala, dataConsulta, horaConsulta, isFixa));
 	}
 	
 	public void asignToUsuario(Long id, Long usuarioId) throws ReservaException, UsuarioException {
@@ -122,11 +156,11 @@ public class ReservaService {
 		reservaRepository.save(reserva.get());
 	}
 	
-	public List<Reserva> getByStatus(StatusReserva status) throws Exception {
+	public String getByStatus(StatusReserva status) throws Exception {
 		
 		checkStatus(status);
 		List<Reserva> reservas = reservaRepository.findByStatus(status.toString());
 		
-		return reservas;
+		return listToJson(reservas);
 	}
 }

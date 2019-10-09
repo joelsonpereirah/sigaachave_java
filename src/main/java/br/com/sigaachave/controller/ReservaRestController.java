@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +34,6 @@ public class ReservaRestController {
 	
 	@Autowired
 	private ReservaService reservaService;
-	
-	@Autowired
-	private UsuarioService usuarioService;
-	
-	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
 	
 	@RequestMapping(value = "/reservas", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<String> all() {
@@ -78,22 +74,24 @@ public class ReservaRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/reserva/atualizar/{sala}+{data}+{status}+{isFixo}", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id){
+	@RequestMapping(value = "/reserva/atualizar", method = RequestMethod.PUT, produces = "application/json")
+	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id, @PathParam(value = "sala") String sala, @PathParam(value = "dataConsulta") String dataConsulta, @PathParam(value = "horaConsulta") Integer horaConsulta, @PathParam(value = "isFixa") Boolean isFixa){
 		
 		try {
-			reservaService.updateReserva(id, reserva);
+			reservaService.updateReserva(id, sala, dataConsulta, horaConsulta, isFixa);
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atualizada com sucesso!").toString(), HttpStatus.OK);
 		} catch (ReservaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		} catch (StatusException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
+		} catch (ParseException e) {
+			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
-	@RequestMapping(value = "/reservas/status", method = RequestMethod.GET)
-	public ResponseEntity<List<Reserva>> getByStatus(@RequestParam(value = "status", required = true) StatusReserva status) throws Exception{
-		return new ResponseEntity<List<Reserva>>(reservaService.getByStatus(status), HttpStatus.OK);
+	@RequestMapping(value = "/reservas/status", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<String> getByStatus(@RequestParam(value = "status", required = true) StatusReserva status) throws Exception{
+		return new ResponseEntity<String>(reservaService.getByStatus(status), HttpStatus.OK);
 		
 	}	
 	
