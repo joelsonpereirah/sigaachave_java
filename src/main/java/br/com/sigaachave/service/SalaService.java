@@ -29,6 +29,14 @@ public class SalaService {
 		}
 	}
 	
+	public void existByNome(String nome) throws SalaException {
+		
+		if(salaRepository.byNome(nome).size() == 0) {
+			
+			 throw new SalaException("Sala não existe!");
+		}
+	}
+	
 	public void checkCamposSala(Sala sala) throws SalaException {
 		
 		if(sala.getNome().equals("")|| sala.getLocalizacao().equals("") || sala.getDescricao().equals("")) {
