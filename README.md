@@ -36,13 +36,13 @@ PUT - Atualiza reserva {id}
 DELETE - Exclui sala {id}  
 `ip:port/sigaachave/reserva/excluir?id={value}`
 
-GET - Retorna todas reservas {status}
+GET - Retorna todas reservas {status}  
 `ip:port/sigaachave/reservas/status?status={value}`
 
-GET - Retorna todas reservas {idUsuario}
+GET - Retorna todas reservas {idUsuario}  
 `ip:port/sigaachave/reservas/usuario?idUsuario={idUsuario}`
 
-GET - Retorna todas reservas {data}
+GET - Retorna todas reservas {data}  
 `ip:port/sigaachave/reservas/status?data={value}`
 
 #### Sala
