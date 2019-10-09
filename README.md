@@ -43,7 +43,7 @@ GET - Retorna todas reservas {idUsuario}
 `ip:port/sigaachave/reservas/usuario?idUsuario={idUsuario}`
 
 GET - Retorna todas reservas {data}  
-`ip:port/sigaachave/reservas/status?data={value}`
+`ip:port/sigaachave/reservas/data?data={value}`
 
 #### Sala
 
