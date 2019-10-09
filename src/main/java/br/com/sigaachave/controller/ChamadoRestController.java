@@ -82,7 +82,7 @@ public class ChamadoRestController {
 		}
 	}
 	
-	@RequestMapping(value = "/chamado/status", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/chamados/status", method = RequestMethod.GET, produces = "application/json")
 	public ResponseEntity<String> getByStatus(@RequestParam(value = "status", required = true) StatusChamado status){
 		try {
 			return new ResponseEntity<String>(chamadoService.getAllByStatus(status), HttpStatus.OK);

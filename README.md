@@ -52,3 +52,24 @@ PUT - Atualiza sala {id}
 
 DELETE - Exclui sala {id}  
 `ip:port/sigaachave/sala/excluir?id={value}`
+
+
+### Chamado
+
+GET - Retorna todos os chamados
+`ip:port/sigaachave/chamados`
+
+GET - Retorna chamado por {id}
+`ip:port/sigaachave/chamado?id={value}`
+
+POST - Adiciona chamado
+`ip:port/sigaachave/chamado/adicionar?idUsuario={value}&sala={value}&descricao={value}`
+
+PUT - Atualiza chamado {id}
+`ip:port/sigaachave/chamado?id={value}&sala={value}&descricao={value}`
+
+DELETE - Exclui chamado {id}
+`ip:port/sigaachave/chamado/excluir?id={value}`
+
+GET - Retorna chamados por {status}
+`ip:port/sigaachave/chamados/status?status={value}`
