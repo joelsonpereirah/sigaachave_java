@@ -45,9 +45,9 @@ public class Usuario {
 	@OneToMany(mappedBy = "usuario", targetEntity = Reserva.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Reserva> reservas;
 	
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "usuario", targetEntity = Reserva.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	private List<Chamado> chamados;
+	@JsonIgnore
+	@OneToMany(mappedBy = "usuario", targetEntity = Reserva.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Chamado> chamados;
 	
 	public Usuario() {}
 	
