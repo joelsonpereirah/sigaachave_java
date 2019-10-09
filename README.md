@@ -8,19 +8,16 @@ GET - Retorna todos usuários
 `ip:port/sigaachave/usuarios`
 
 GET - Retorna usuario {id}  
-`ip:port/sigaachave/usuarios/{id}`
-
-GET - Retornar reservas do Usuario {id}  
-`ip:port/sigaachave/usuarios/{id}/reservas`
+`ip:port/sigaachave/usuario?id={value}`
 
 POST - Adiciona usuario  
-`ip:port/sigaachave/usuarios/adicionar/{nome}+{senha}+{papel}`
+`ip:port/sigaachave/usuario/adicionar?nome={value}&cpf={value}&senha={value}&papel={value}`
 
 PUT - Atualiza usuario {id}  
-`ip:port/sigaachave/usuarios/{id}/atualizar/{nome}+{senha}+{papel}`
+`ip:port/sigaachave/usuario/atualizar?id={value}&nome={value}&cpf={value}&senha={value}&papel={value}`
 
 DELETE - Exclui usuario {id}  
-`ip:port/sigaachave/usuarios/{id}/excluir`
+`ip:port/sigaachave/usuario/excluir?id={value}`
 
 #### Reservas
 
@@ -39,19 +36,19 @@ PUT - Atualiza reserva {id}
 PUT - Confirmar reserva pendente {id}  
 `ip:port/sigaachave/reservas/status/{id}`
 
-#### Salas
+#### Sala
 
 GET - Retorna todas as salas  
 `ip:port/sigaachave/salas`
 
 GET - Retorna sala por {id}  
-`ip:port/sigaachave/salas/{id}`
+`ip:port/sigaachave/sala?id={value}`
 
 POST - Adiciona sala  
-`ip:port/sigaachave/salas/adicionar/{nome}+{localizacao}+{descricao}+{permiteFixar}`
+`ip:port/sigaachave/sala/adicionar?nome={value}&localizacao={value}&descricao={value}&permiteFixo={value}`
 
 PUT - Atualiza sala {id}  
-`ip:port/sigaachave/salas/{id}/atualizar/{nome}+{descricao}+{localizacao}+{permiteFixo}`
+`ip:port/sigaachave/sala/atualizar?id={value}&nome={value}&localizacao={value}&descricao={value}&permiteFixo={value}`
 
 DELETE - Exclui sala {id}  
-`ip:port/sigaachave/salas/{id}/excluir`
+`ip:port/sigaachave/sala/excluir?id={value}`

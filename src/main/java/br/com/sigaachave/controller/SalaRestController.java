@@ -33,7 +33,7 @@ public class SalaRestController {
 	}
 	
 	@RequestMapping(value = "/sala", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<String> get(@PathParam("id") Long id) {
+	public ResponseEntity<String> get(@RequestParam(value = "id", required=true) Long id) {
 		
 		try {
 			return new ResponseEntity<String>(salaService.getSala(id).toString(), HttpStatus.OK);
@@ -43,7 +43,7 @@ public class SalaRestController {
 	}
 	
 	@RequestMapping(value = "/sala/excluir", method = RequestMethod.DELETE, produces = "application/json")
-	public ResponseEntity<String> remove(@PathParam("id") Long id) {
+	public ResponseEntity<String> remove(@RequestParam(value = "id", required=true) Long id) {
 		
 		try {
 			salaService.deleteSala(id);
