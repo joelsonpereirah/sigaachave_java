@@ -20,8 +20,7 @@ import br.com.sigaachave.model.JwtResponse;
 
 @RestController
 
-@CrossOrigin
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class JwtAuthenticationController {
 
 	@Autowired
