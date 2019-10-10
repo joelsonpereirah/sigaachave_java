@@ -112,4 +112,77 @@ public class Usuario {
 		
 		return object.toString();
 	}
+	
+	// Uses Caesar Cipher idea
+	public Usuario Encrypt() {
+		int module;
+		int key = Integer.parseUnsignedInt(cpf);
+		
+		char chars[] = senha.toCharArray();
+		for(char ch : chars)
+		{
+			//Números e alguns caracteres especiais
+			if(33 <= ch & ch <= 64)
+			{
+				module = 32;
+				key = key % module;
+				ch = (char) ((ch + key - 33) % module + 33);
+			}
+			//Letras maiusculas
+			else if( 65 <= ch & ch <= 90)
+			{
+				module = 26;
+				key = key % module;
+				ch = (char) ((ch + key - 65) % module + 65);
+			}
+			//Letras minusculas
+			else if(97 <= ch & ch <= 122)
+			{
+				module = 26;
+				key = key % module;
+				ch = (char) ((ch + key - 97) % module + 97);				
+			}
+		}
+		this.senha = chars.toString();
+		
+		return this;
+	}
+	
+	// Uses Caesar Cipher idea
+	public Usuario Decrypt() {
+		int module;
+		int key = Integer.parseUnsignedInt(cpf);
+		
+		char chars[] = senha.toCharArray();
+		for(char ch : chars)
+		{
+			//Números e alguns caracteres especiais(não todos)
+			if(33 <= ch & ch <= 64)
+			{
+				module = 32;
+				key = key % module;
+				key = module - key; // Para avançarmos oq regredimos
+				ch = (char) ((ch + key - 33) % module + 33);
+			}
+			//Letras maiusculas
+			else if( 65 <= ch & ch <= 90)
+			{
+				module = 26;
+				key = key % module;
+				key = module - key; // Para avançarmos oq regredimos
+				ch = (char) ((ch + key - 65) % module + 65);
+			}
+			//Letras minusculas
+			else if(97 <= ch & ch <= 122)
+			{
+				module = 26;
+				key = key % module;
+				key = module - key; // Para avançarmos oq regredimos
+				ch = (char) ((ch + key - 97) % module + 97);				
+			}
+		}
+		this.senha = chars.toString();
+		
+		return this;
+	}
 }

@@ -87,6 +87,7 @@ public class UsuarioService {
 		checkPapel(usuario.getPapel());
 		checkUsuarioByCPF(usuario.getCpf());
 		usuarioRepository.save(usuario);
+		//usuarioRepository.save(usuario.Encrypt());
 	}
 	
 	public void deleteUsuario(Long id) throws UsuarioException{
@@ -99,6 +100,8 @@ public class UsuarioService {
 		
 		checkUsuariobyId(id);
 		usuarioRepository.save(updateCamposUsuario(id, nome, cpf, senha, papel));
+		//usuarioRepository.save(updateCamposUsuario(id, nome, cpf, senha, papel).Encrypt());
+
 	}
 	
 	public Usuario getUsuarioByNome(String nome) {
