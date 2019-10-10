@@ -51,10 +51,13 @@ public class ReservaService {
 		}
 	}
 	
-	public Reserva updateCamposSala(Long id, String sala, String dataConsulta, Integer horaConsulta, Boolean isFixa) throws ParseException {
+	public Reserva updateCamposSala(Long id, StatusReserva status, String sala, String dataConsulta, Integer horaConsulta, Boolean isFixa) throws ParseException {
 		
 		Reserva oldReserva = reservaRepository.getOne(id);
-		
+
+		if(status != null) {
+			oldReserva.setStatus(status);
+		}
 		if(sala != null) {
 			oldReserva.setSala(sala);
 		}
@@ -129,10 +132,10 @@ public class ReservaService {
 		reservaRepository.save(reserva);
 	}
 	
-	public void updateReserva(Long id, String sala, String dataConsulta, Integer horaConsulta, Boolean isFixa) throws ReservaException, StatusException, ParseException {
+	public void updateReserva(Long id, StatusReserva status, String sala, String dataConsulta, Integer horaConsulta, Boolean isFixa) throws ReservaException, StatusException, ParseException {
 		
 		checkReservabyId(id);
-		reservaRepository.save(updateCamposSala(id, sala, dataConsulta, horaConsulta, isFixa));
+		reservaRepository.save(updateCamposSala(id, status, sala, dataConsulta, horaConsulta, isFixa));
 	}
 	
 	public void asignToUsuario(Long id, Long usuarioId) throws ReservaException, UsuarioException {

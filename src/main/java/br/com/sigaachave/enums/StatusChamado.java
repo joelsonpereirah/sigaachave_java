@@ -5,5 +5,6 @@ public enum StatusChamado {
 	PENDENTE,
 	CONFIRMADO,
 	CANCELADO,
-	EM_EXECUCAO;
+	EM_EXECUCAO,
+	FINALIZADO;
 }
