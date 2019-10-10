@@ -1,6 +1,6 @@
 insert into USUARIO values(1,'12147642401','André Filho', 'ADMIN', '123');
 insert into USUARIO values(2,'12147642402','Wisla Argolo', 'COORDENADOR', '123');
-insert into USUARIO values(3,'12147642403','Daniel Leiros', 'BOLSISTA', '123');
+insert into USUARIO values(3,'08417853413','Daniel Leiros', 'BOLSISTA', '123');
 insert into USUARIO values(4,'12147642404','Bryan Brito', 'BOLSISTA', '123');
 insert into USUARIO values(5,'12147642405','Daniel Guerra', 'BOLSISTA', '123');
 --insert into USUARIO values(6,'1444','Teste', 'ADMIN', '001');

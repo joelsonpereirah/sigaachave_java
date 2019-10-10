@@ -68,10 +68,10 @@ public class ReservaRestController {
 	}
 	
 	@RequestMapping(value = "/reserva/atualizar", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id, @PathParam(value = "sala") String sala, @PathParam(value = "dataConsulta") String dataConsulta, @PathParam(value = "horaConsulta") Integer horaConsulta, @PathParam(value = "isFixa") Boolean isFixa){
+	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id, @PathParam(value = "status") StatusReserva status, @PathParam(value = "sala") String sala, @PathParam(value = "dataConsulta") String dataConsulta, @PathParam(value = "horaConsulta") Integer horaConsulta, @PathParam(value = "isFixa") Boolean isFixa){
 		
 		try {
-			reservaService.updateReserva(id, sala, dataConsulta, horaConsulta, isFixa);
+			reservaService.updateReserva(id, status, sala, dataConsulta, horaConsulta, isFixa);
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atualizada com sucesso!").toString(), HttpStatus.OK);
 		} catch (ReservaException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);

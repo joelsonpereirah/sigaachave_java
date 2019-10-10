@@ -67,10 +67,10 @@ public class ChamadoRestController {
 	}
 	
 	@RequestMapping(value = "/chamado/atualizar", method = RequestMethod.PUT, produces = "application/json")
-	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id, @PathParam(value = "sala") String sala, @PathParam(value = "descricao") String descricao){
+	public ResponseEntity<String> update(@RequestParam(value = "id", required = true) Long id, @PathParam(value = "status") StatusChamado status, @PathParam(value = "sala") String sala, @PathParam(value = "descricao") String descricao){
 		
 		try {
-			chamadoService.updateChamado(id, sala, descricao);
+			chamadoService.updateChamado(id, status, sala, descricao);
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.OK.toString(), "Reserva atualizada com sucesso!").toString(), HttpStatus.OK);
 		} catch (ChamadoException e) {
 			return new ResponseEntity<String>(new JsonResponse(HttpStatus.NOT_FOUND.toString(), e.getMessage()).toString(), HttpStatus.NOT_FOUND);

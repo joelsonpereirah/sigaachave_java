@@ -64,10 +64,13 @@ public class ChamadoService {
 		return json;
 	}
 	
-	public Chamado updateCamposChamado(Long id, String sala, String descricao) {
+	public Chamado updateCamposChamado(Long id, StatusChamado status, String sala, String descricao) {
 		
 		Chamado oldChamado = chamadoRepository.getOne(id);
-		
+
+		if(status != null) {
+			oldChamado.setStatus(verifyAndamento(oldChamado, status));
+		}
 		if(sala != null) {
 			oldChamado.setSala(sala);
 		}
@@ -76,6 +79,14 @@ public class ChamadoService {
 		}
 		
 		return oldChamado;
+	}
+
+	private StatusChamado verifyAndamento(Chamado chamado, StatusChamado novoStatus) {
+		if (chamado.getStatus().equals(StatusChamado.EM_EXECUCAO) && novoStatus.equals(StatusChamado.CONFIRMADO)){
+			return StatusChamado.FINALIZADO;
+		} else {
+			return novoStatus;
+		}
 	}
 	
 	public String getAllChamados() {
@@ -103,11 +114,11 @@ public class ChamadoService {
 		chamadoRepository.save(chamado);
 	}
 	
-	public void updateChamado(Long id, String sala, String descricao) throws ChamadoException, SalaException {
+	public void updateChamado(Long id, StatusChamado status, String sala, String descricao) throws ChamadoException, SalaException {
 		
 		checkChamadoById(id);
 		salaService.existByNome(sala);
-		chamadoRepository.save(updateCamposChamado(id, sala, descricao));
+		chamadoRepository.save(updateCamposChamado(id, status, sala, descricao));
 	}
 	
 	public String getAllByStatus(StatusChamado status) throws StatusException {
